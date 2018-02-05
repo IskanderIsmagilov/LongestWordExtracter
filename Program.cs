@@ -1,4 +1,12 @@
-class Program
+sing System;
+using System.Linq;
+using System.Collections.Generic;
+using System.Net;
+using System.Threading.Tasks;
+
+namespace LongestWordExtracter
+{
+    class Program
     {
         static void Main(string[] args)
         {
@@ -8,25 +16,20 @@ class Program
             Console.ReadLine();
             Console.WriteLine("Bye!");
         }
-
+        
         static string LongestWord(string text)
         {
-            string alphabet = "abcdefghijklmnopqrstuvwyz";
+            char[] alphabet = "abcdefghijklmnopqrstuvwyz".ToCharArray();
             string[] words = text.Split(' ');
-            string biggestWord = "";
+            string biggestWord = "";                       
 
-            for (int index = 0; index < words.Length; index++)
+            foreach (string word in words)
             {
-                string word = words[index];
-                for (int i = 0; i < word.Length; i++)
-                {
-                    if (!alphabet.Contains("" + char.ToLower(word[i])))
-                    {
-                        word = word.Remove(i);
-                    }
-                }
-                biggestWord = biggestWord.Length < word.Length ? word : biggestWord;
-            }
+                IEnumerable<char> letters = word.Where(letter => alphabet.Contains(char.ToLower(letter)));
+                string currentWord = string.Join("", letters);
+                biggestWord = biggestWord.Length < currentWord.Length ? currentWord : biggestWord;                
+            }           
             return biggestWord;
         }
     }
+}
